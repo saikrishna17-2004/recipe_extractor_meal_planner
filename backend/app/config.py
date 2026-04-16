@@ -1,4 +1,5 @@
 from functools import lru_cache
+from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -13,11 +14,20 @@ class Settings(BaseSettings):
 
     @property
     def normalized_database_url(self) -> str:
-        if self.database_url.startswith('postgres://'):
-            return self.database_url.replace('postgres://', 'postgresql+psycopg2://', 1)
-        if self.database_url.startswith('postgresql://') and '+psycopg2' not in self.database_url:
-            return self.database_url.replace('postgresql://', 'postgresql+psycopg2://', 1)
-        return self.database_url
+        url = self.database_url
+        if url.startswith('postgres://'):
+            url = url.replace('postgres://', 'postgresql+psycopg2://', 1)
+        elif url.startswith('postgresql://') and '+psycopg2' not in url:
+            url = url.replace('postgresql://', 'postgresql+psycopg2://', 1)
+
+        if not url.startswith('postgresql+psycopg2://'):
+            return url
+
+        parsed = urlparse(url)
+        query = dict(parse_qsl(parsed.query, keep_blank_values=True))
+        if 'sslmode' not in query:
+            query['sslmode'] = 'require'
+        return urlunparse(parsed._replace(query=urlencode(query)))
 
 
 @lru_cache(maxsize=1)

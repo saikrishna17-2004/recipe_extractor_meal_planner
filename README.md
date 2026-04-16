@@ -106,4 +106,4 @@ If `DATABASE_URL` is missing on Render, the app now fails fast at startup with a
 
 ### Notes for Hosted Postgres URLs
 
-The app normalizes `postgres://` and `postgresql://` URLs to the SQLAlchemy psycopg2 format automatically, so no manual URL rewriting is required.
+The app normalizes `postgres://` and `postgresql://` URLs to the SQLAlchemy psycopg2 format automatically and adds `sslmode=require` when missing, so no manual URL rewriting is required.
