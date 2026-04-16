@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recipe Extractor & Meal Planner</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Recipe Extractor & Meal Planner</p>
+        <h1>Turn recipe blog URLs into structured recipes and meal plans.</h1>
+        <p class="lede">Paste a blog URL, extract a recipe, review saved history, and optionally merge shopping lists across recipes.</p>
+      </div>
+      <div class="hero-card">
+        <div class="stat"><span id="recipeCount">0</span><label>Saved Recipes</label></div>
+        <div class="stat"><span>FastAPI</span><label>Backend</label></div>
+        <div class="stat"><span>Postgres</span><label>Storage</label></div>
+      </div>
+    </header>
+
+    <nav class="tabs" aria-label="Tabs">
+      <button class="tab active" data-tab="extractTab">Extract Recipe</button>
+      <button class="tab" data-tab="historyTab">Saved Recipes</button>
+    </nav>
+
+    <section id="extractTab" class="panel active">
+      <div class="form-card">
+        <label for="recipeUrl">Recipe Blog URL</label>
+        <div class="input-row">
+          <input id="recipeUrl" type="url" placeholder="https://www.allrecipes.com/recipe/..." />
+          <button id="extractButton">Extract Recipe</button>
+        </div>
+        <p id="statusMessage" class="status"></p>
+      </div>
+
+      <div id="recipeResult" class="grid"></div>
+    </section>
+
+    <section id="historyTab" class="panel">
+      <div class="history-header">
+        <div>
+          <h2>Saved Recipes</h2>
+          <p>Review previously processed URLs and open full details in a modal.</p>
+        </div>
+        <button id="refreshHistory" class="secondary">Refresh</button>
+      </div>
+
+      <div class="history-layout">
+        <div class="table-card">
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Cuisine</th>
+                <th>Difficulty</th>
+                <th>Date Extracted</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="historyTable"></tbody>
+          </table>
+        </div>
+
+        <aside class="planner-card">
+          <div class="planner-header">
+            <h3>Meal Planner</h3>
+            <p>Select saved recipes to merge shopping lists.</p>
+          </div>
+          <div id="mealPlannerList" class="planner-list"></div>
+          <button id="buildMealPlan" class="secondary full-width">Build Meal Plan</button>
+          <div id="mealPlanOutput" class="meal-plan-output"></div>
+        </aside>
+      </div>
+    </section>
+  </div>
+
+  <div id="modalBackdrop" class="modal-backdrop hidden">
+    <div class="modal">
+      <button id="closeModal" class="close-button" aria-label="Close modal">x</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

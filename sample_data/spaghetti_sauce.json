@@ -1,0 +1,44 @@
+{
+  "id": 2,
+  "url": "https://www.allrecipes.com/recipe/21561/spaghetti-sauce-with-ground-beef/",
+  "title": "Spaghetti Sauce with Ground Beef",
+  "cuisine": "Italian-American",
+  "prep_time": "15 mins",
+  "cook_time": "1 hr",
+  "total_time": "1 hr 15 mins",
+  "servings": 6,
+  "difficulty": "medium",
+  "ingredients": [
+    { "quantity": "1", "unit": "lb", "item": "ground beef" },
+    { "quantity": "1", "unit": "jar", "item": "pasta sauce" },
+    { "quantity": "1", "unit": "cup", "item": "onion, chopped" },
+    { "quantity": "2", "unit": "cloves", "item": "garlic, minced" }
+  ],
+  "instructions": [
+    "Brown the ground beef in a skillet.",
+    "Add onion and garlic and cook until softened.",
+    "Stir in pasta sauce and simmer until thickened.",
+    "Serve over cooked spaghetti."
+  ],
+  "nutrition_estimate": {
+    "calories": 310,
+    "protein": "18g",
+    "carbs": "22g",
+    "fat": "14g"
+  },
+  "substitutions": [
+    "Use lentils instead of ground beef for a vegetarian version.",
+    "Swap regular pasta sauce with a low-sugar marinara.",
+    "Add mushrooms for extra umami and texture."
+  ],
+  "shopping_list": {
+    "protein": ["ground beef"],
+    "produce": ["onion", "garlic"],
+    "pantry": ["pasta sauce"]
+  },
+  "related_recipes": [
+    "Garlic Bread",
+    "Caesar Salad",
+    "Baked Ziti"
+  ]
+}

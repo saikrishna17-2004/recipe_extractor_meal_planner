@@ -1,0 +1,54 @@
+{
+  "url": "http://127.0.0.1:8000/static/demo_recipe.html?v=3",
+  "title": "Classic Grilled Cheese Sandwich",
+  "cuisine": "American",
+  "prep_time": "5 mins",
+  "cook_time": "10 mins",
+  "total_time": "15 mins",
+  "servings": 2,
+  "difficulty": "easy",
+  "ingredients": [
+    {
+      "quantity": "4",
+      "unit": "slice",
+      "item": "white bread"
+    },
+    {
+      "quantity": "2",
+      "unit": "slice",
+      "item": "cheddar cheese"
+    },
+    {
+      "quantity": "2",
+      "unit": "tbsp",
+      "item": "butter"
+    }
+  ],
+  "instructions": [
+    "Butter one side of each bread slice.",
+    "Place cheese between two slices, butter side facing out.",
+    "Heat a skillet over medium heat.",
+    "Cook sandwich 3-4 minutes per side until golden brown and cheese is melted.",
+    "Slice and serve hot."
+  ],
+  "nutrition_estimate": {
+    "calories": 185,
+    "protein": "3g",
+    "carbs": "6g",
+    "fat": "5g"
+  },
+  "substitutions": [
+    "Replace butter with olive oil for a dairy-free version.",
+    "Use whole wheat bread instead of white bread for more fiber.",
+    "Swap cheddar with mozzarella for a milder, stretchier finish."
+  ],
+  "shopping_list": {
+    "dairy": ["butter", "cheddar cheese"],
+    "pantry": ["white bread"]
+  },
+  "related_recipes": [
+    "Tomato Soup",
+    "French Onion Grilled Cheese",
+    "Caprese Sandwich"
+  ]
+}
