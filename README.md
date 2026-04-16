@@ -102,6 +102,8 @@ This repository is deployment-ready with `Dockerfile` and `render.yaml`.
 - `GEMINI_API_KEY` (optional but recommended)
 - `GEMINI_MODEL` (default: `gemini-1.5-flash`)
 
+If `DATABASE_URL` is missing on Render, the app now fails fast at startup with a clear error instead of silently using local SQLite.
+
 ### Notes for Hosted Postgres URLs
 
 The app normalizes `postgres://` and `postgresql://` URLs to the SQLAlchemy psycopg2 format automatically, so no manual URL rewriting is required.
