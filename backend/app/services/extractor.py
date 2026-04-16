@@ -39,17 +39,28 @@ class RecipeExtractor:
         payload = extract_context(scraped)
         payload_text = _json_dumps(payload)
         extracted: dict = {}
-        llm_result = self.llm.extract_recipe(payload_text)
-        if llm_result and isinstance(llm_result.data, dict):
-            extracted.update(llm_result.data)
-        nutrition_result = self.llm.generate_nutrition(payload_text)
-        if nutrition_result and isinstance(nutrition_result.data, dict):
-            extracted['nutrition_estimate'] = nutrition_result.data
-        substitutions_result = self.llm.generate_substitutions(payload_text)
-        if substitutions_result and isinstance(substitutions_result.data, dict):
-            extracted['substitutions'] = substitutions_result.data.get('substitutions', [])
-            extracted['shopping_list'] = substitutions_result.data.get('shopping_list', {})
-            extracted['related_recipes'] = substitutions_result.data.get('related_recipes', [])
+        try:
+            llm_result = self.llm.extract_recipe(payload_text)
+            if llm_result and isinstance(llm_result.data, dict):
+                extracted.update(llm_result.data)
+        except Exception:
+            pass
+
+        try:
+            nutrition_result = self.llm.generate_nutrition(payload_text)
+            if nutrition_result and isinstance(nutrition_result.data, dict):
+                extracted['nutrition_estimate'] = nutrition_result.data
+        except Exception:
+            pass
+
+        try:
+            substitutions_result = self.llm.generate_substitutions(payload_text)
+            if substitutions_result and isinstance(substitutions_result.data, dict):
+                extracted['substitutions'] = substitutions_result.data.get('substitutions', [])
+                extracted['shopping_list'] = substitutions_result.data.get('shopping_list', {})
+                extracted['related_recipes'] = substitutions_result.data.get('related_recipes', [])
+        except Exception:
+            pass
         return extracted
 
     def _heuristic_extract(self, scraped: ScrapedRecipePage) -> dict:
