@@ -80,3 +80,27 @@ The LangChain prompt templates used by the extraction pipeline are stored here:
 - The application uses PostgreSQL when `DATABASE_URL` points to Postgres.
 - If no Gemini key is configured, the extractor falls back to a deterministic parsing and heuristic generation path so the app still runs end to end.
 - Screenshots were not generated in this workspace; capture them after running the app for submission.
+
+## Publish (GitHub + Render)
+
+This repository is deployment-ready with `Dockerfile` and `render.yaml`.
+
+1. Push your code to GitHub (already done for this project).
+2. In Render, choose New + Blueprint and select this repository.
+3. Render will detect `render.yaml` and create:
+  - a web service for the FastAPI app
+  - a managed PostgreSQL database
+4. In the Render dashboard, set `GEMINI_API_KEY` in the web service environment variables.
+5. Deploy. Once finished, open your Render URL and verify:
+  - `/health` returns `{"status":"ok"}`
+  - UI loads at `/`
+
+### Environment Variables for Production
+
+- `DATABASE_URL` (auto-provided by Render via `render.yaml`)
+- `GEMINI_API_KEY` (optional but recommended)
+- `GEMINI_MODEL` (default: `gemini-1.5-flash`)
+
+### Notes for Hosted Postgres URLs
+
+The app normalizes `postgres://` and `postgresql://` URLs to the SQLAlchemy psycopg2 format automatically, so no manual URL rewriting is required.

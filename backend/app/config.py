@@ -11,6 +11,14 @@ class Settings(BaseSettings):
     gemini_model: str = 'gemini-1.5-flash'
     request_timeout_seconds: int = 20
 
+    @property
+    def normalized_database_url(self) -> str:
+        if self.database_url.startswith('postgres://'):
+            return self.database_url.replace('postgres://', 'postgresql+psycopg2://', 1)
+        if self.database_url.startswith('postgresql://') and '+psycopg2' not in self.database_url:
+            return self.database_url.replace('postgresql://', 'postgresql+psycopg2://', 1)
+        return self.database_url
+
 
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
