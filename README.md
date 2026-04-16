@@ -79,6 +79,7 @@ The LangChain prompt templates used by the extraction pipeline are stored here:
 
 - The application uses PostgreSQL when `DATABASE_URL` points to Postgres.
 - If no Gemini key is configured, the extractor falls back to a deterministic parsing and heuristic generation path so the app still runs end to end.
+- Some recipe websites block automated scraping and may return 401/403. In those cases, extraction is rejected and no history row is created.
 - Screenshots were not generated in this workspace; capture them after running the app for submission.
 
 ## Publish (GitHub + Render)

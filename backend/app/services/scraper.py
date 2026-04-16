@@ -28,10 +28,17 @@ def validate_recipe_url(url: str) -> None:
 def fetch_page(url: str, timeout: int = 20) -> str:
     headers = {
         'User-Agent': 'Mozilla/5.0 (RecipeExtractor/1.0; +https://example.com)',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Accept-Language': 'en-US,en;q=0.9',
     }
-    response = requests.get(url, headers=headers, timeout=timeout)
-    response.raise_for_status()
+    try:
+        response = requests.get(url, headers=headers, timeout=timeout)
+        response.raise_for_status()
+    except requests.HTTPError as exc:
+        status = exc.response.status_code if exc.response is not None else None
+        if status in {401, 403}:
+            raise ValueError('This website blocks automated scraping (401/403). Please try another recipe URL.') from exc
+        raise
     return response.text
 
 

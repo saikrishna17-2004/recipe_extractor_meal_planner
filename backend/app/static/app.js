@@ -93,11 +93,22 @@ els.buildMealPlan.addEventListener('click', async () => {
 });
 
 async function refreshHistoryView() {
-  const recipes = await api.history();
-  state.recipes = recipes;
-  els.recipeCount.textContent = String(recipes.length);
-  renderHistory(recipes);
-  renderPlanner(recipes);
+  try {
+    const recipes = await api.history();
+    state.recipes = recipes;
+    els.recipeCount.textContent = String(recipes.length);
+    renderHistory(recipes);
+    renderPlanner(recipes);
+  } catch (error) {
+    state.recipes = [];
+    els.recipeCount.textContent = '0';
+    els.historyTable.innerHTML = `
+      <tr>
+        <td colspan="5">Could not load saved recipes: ${escapeHtml(getErrorMessage(error))}</td>
+      </tr>
+    `;
+    els.mealPlannerList.innerHTML = '<p>Meal planner unavailable until recipes load.</p>';
+  }
 }
 
 function renderRecipe(recipe, container) {
@@ -123,6 +134,15 @@ function renderRecipe(recipe, container) {
 }
 
 function renderHistory(recipes) {
+  if (!recipes.length) {
+    els.historyTable.innerHTML = `
+      <tr>
+        <td colspan="5">No saved recipes yet. Extract a recipe in the first tab to populate history.</td>
+      </tr>
+    `;
+    return;
+  }
+
   els.historyTable.innerHTML = recipes.map((recipe) => `
     <tr>
       <td>${escapeHtml(recipe.title)}</td>
@@ -142,6 +162,11 @@ function renderHistory(recipes) {
 }
 
 function renderPlanner(recipes) {
+  if (!recipes.length) {
+    els.mealPlannerList.innerHTML = '<p>No recipes available for meal planning yet.</p>';
+    return;
+  }
+
   els.mealPlannerList.innerHTML = recipes.map((recipe) => `
     <label class="planner-item">
       <input type="checkbox" data-plan-id="${recipe.id}" ${state.selected.has(recipe.id) ? 'checked' : ''} />
