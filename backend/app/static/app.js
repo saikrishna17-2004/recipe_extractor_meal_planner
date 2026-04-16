@@ -78,6 +78,13 @@ els.closeModal.addEventListener('click', closeModal);
 els.modalBackdrop.addEventListener('click', (event) => {
   if (event.target === els.modalBackdrop) closeModal();
 });
+els.historyTable.addEventListener('click', async (event) => {
+  const button = event.target.closest('[data-details]');
+  if (!button) return;
+  const recipeId = button.dataset.details;
+  if (!recipeId) return;
+  await openRecipeDetails(recipeId);
+});
 els.buildMealPlan.addEventListener('click', async () => {
   const recipeIds = Array.from(state.selected);
   if (!recipeIds.length) {
@@ -152,13 +159,17 @@ function renderHistory(recipes) {
       <td><button class="secondary" data-details="${recipe.id}">Details</button></td>
     </tr>
   `).join('');
+}
 
-  els.historyTable.querySelectorAll('[data-details]').forEach((button) => {
-    button.addEventListener('click', async () => {
-      const recipe = await api.details(button.dataset.details);
-      showModal(recipe);
-    });
-  });
+async function openRecipeDetails(recipeId) {
+  els.modalContent.innerHTML = '<p>Loading recipe details...</p>';
+  els.modalBackdrop.classList.remove('hidden');
+  try {
+    const recipe = await api.details(recipeId);
+    showModal(recipe);
+  } catch (error) {
+    els.modalContent.innerHTML = `<p>${escapeHtml(getErrorMessage(error))}</p>`;
+  }
 }
 
 function renderPlanner(recipes) {
